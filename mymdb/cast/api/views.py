@@ -9,7 +9,7 @@ from cast.models import Person
 from cast.api.serializers import PersonSerializer
 
 class PersonCreateAPIView(APIView):
-
+    
     def get(self, request):
         person = Person.objects
         serializer = PersonSerializer(person, many=True)

@@ -6,9 +6,18 @@ class CharacterSerializer(serializers.ModelSerializer):
         model = Character
         fields = ("id", "person", "character", "movie")
 
+class CharacterMovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Character
+        fields = ("person", "character")
 
 class MovieSerializer(serializers.ModelSerializer):
-    actors = Movie.get_acotrs(Movie.actors.)
     class Meta:
         model = Movie
-        fields = ("id", "title", "description", "director", "rev")
+        fields = ("id", "title", "description", "director","scripts", "actors" , "reviews", )
+
+class MoviePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = ("id", "title", "description", "director","scripts", )
+        
