@@ -7,13 +7,16 @@ class Movie(models.Model):
     title = models.CharField(50, default='')
     description = models.CharField(max_length=20000, default='')
     director = models.ForeignKey(Person, on_delete=models.DO_NOTHING)
+    scripts = models.JSONField(default=None)
     created_at = models.DateTimeField(default=datetime.now)
     updated_at = models.DateTimeField(default=datetime.now)
-    actors = models.CharField(max_length=2000, default='')
+    
     
 class Character(models.Model):
+
+
     character = models.CharField(max_length=50, default='')
     person = models.ForeignKey(Person, on_delete=models.DO_NOTHING)
-    movie = models.ForeignKey(Movie, on_delete=models.DO_NOTHING)
+    movie = models.ForeignKey(Movie, on_delete=models.DO_NOTHING, related_name="actors", default=None)
     created_at = models.DateTimeField(default=datetime.now)
     updated_at = models.DateTimeField(default=datetime.now)
