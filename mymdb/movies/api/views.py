@@ -8,7 +8,9 @@ import json
 
 from movies.models import Character, Movie
 from cast.models import Person
-from cast.api.serializers import PersonSerializer, PersonMovieSerializer
+from reviews.models import Review
+from reviews.api.serializers import ReviewMovieSerializer
+from cast.api.serializers import PersonMovieSerializer
 from movies.api.serializers import CharacterSerializer, CharacterMovieSerializer,MovieSerializer, MoviePostSerializer
 
 class CharacterCreateAPIView(APIView):
@@ -55,13 +57,14 @@ class CharacterDetailAPIView(APIView):
 def format_movie(i):
     k = 0
     q = 0
+    j = 0
+
     try:
-        dir = PersonMovieSerializer(Person.objects.get(id=i["director"])).data
+        dir = PersonMovieSerializer(Person.objects.get(id=int(i["director"]))).data
     except:
         dir = json.loads("{}")
 
     i['director'] = dir
-    print(i.copy())
     for a in i["actors"]:
         try:
             act = CharacterMovieSerializer(Character.objects.get(id=a[q])).data
@@ -76,9 +79,21 @@ def format_movie(i):
         except:
             per = json.loads("{}")
         i["scripts"][k] = per
-        print(i)
         k += 1
-    
+    print (i)
+    for r in i["reviews"]:
+        print(Review.objects.all())
+        
+        try:
+            rev = ReviewMovieSerializer(Review.objects.get(id=r)).data
+            print(1)
+        except:
+            print(2)
+            rev = json.loads("{}")
+        i["reviews"][j] = rev
+        
+        j+=1
+    return i
 class MovieCreateAPIView(APIView):
 
     def get(self, request):
@@ -104,13 +119,12 @@ class MovieDetailAPIView(APIView):
     def get(self, request, pk):
         movie = self.get_movie(pk)
         serializer = MovieSerializer(movie)
-        format_movie(serializer.data)
-        print(serializer.data)
-        return Response(serializer.data)
+        
+        return Response(format_movie(serializer.data))
     
     def put(self, request, pk):
         movie = self.get_movie(pk)
-        serializer = MovieSerializer(movie, data=request.data)
+        serializer = MoviePostSerializer(movie, data=request.data)
         
         if serializer.is_valid():
             serializer.validated_data["updated_at"] = datetime.now()
