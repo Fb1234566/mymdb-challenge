@@ -10,11 +10,10 @@ class Review(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, default=None, related_name="reviews")
     #tags = GenericRelation(Movie, related_query_name="reviews")
     #content_type = models.ForeignKey(ContentType,
-    #   on_delete=models.DO_NOTHING,
     #   related_name="reviews"
     #
     #bject_id = models.PositiveIntegerField()
     #bj = GenericForeignKey('content_type', 'object_id')
     created_at = models.DateTimeField(default=datetime.now)
     updated_at = models.DateTimeField(default=datetime.now)
-    
+
