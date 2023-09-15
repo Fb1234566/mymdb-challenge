@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 
 class Review(models.Model):
     review = models.CharField(max_length=20000, default='')
-    movie = models.ForeignKey(Movie, on_delete=models.DO_NOTHING, default=None, related_name="reviews")
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, default=None, related_name="reviews")
     #tags = GenericRelation(Movie, related_query_name="reviews")
     #content_type = models.ForeignKey(ContentType,
     #   on_delete=models.DO_NOTHING,
