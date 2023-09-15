@@ -17,3 +17,4 @@ class Review(models.Model):
     #bj = GenericForeignKey('content_type', 'object_id')
     created_at = models.DateTimeField(default=datetime.now)
     updated_at = models.DateTimeField(default=datetime.now)
+
